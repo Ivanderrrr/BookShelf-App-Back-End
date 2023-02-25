@@ -102,25 +102,22 @@ const addBookHandler = (request, h) => {
     // mendapatkan id dri parameter URL.
         const {bookId} = request.params;
     // mendapatkan buku dengan id yg sama dari array notes
-        const book = books.filter((n) => n.Id === bookId)[0];
+        const book = books.find((n) => n.id === bookId);
     // memastikan buku tidak undefined
-    if(book !== undefined){
-            const response = h.response({
+    if(book){
+        return h
+        .response({
                 status: 'success',
                 data:{
-                    book,
-                }
-            });
-            response.code(200);
-            return response;
-        }
-            const response = h.response({
+                    book
+                },
+        }).code(200);
+        };
+            return h.response({
                 status: 'fail',
-                message: 'Buku tidak ditemukan'
-            });
-            response.code(404);
-            return response;
-        }
+                message: 'Buku tidak ditemukan',
+            }).code(404);
+        };
     
     // function editBookByIdHandler.
     // mengedit semua buku berdasarkan id.
@@ -141,7 +138,7 @@ const addBookHandler = (request, h) => {
         const updatedAt = new Date().toISOString();
         const finished = pageCount === readPage;
         
-        if(name === undefined){
+        if(!name){
             const response = h.response({
                 status: 'fail',
                 message: 'Gagal memperbarui buku. Mohon isi nama buku'
@@ -159,7 +156,7 @@ const addBookHandler = (request, h) => {
             return response;
         }
         // mengubah data lama menjadi data baru.
-        const index = books.findIndex((book) => book.Id === bookId);
+        const index = books.findIndex((book) => book.id === bookId);
         if(index !== -1){
             books[index] = {
                 // mengganti data dgn spread syntax.
@@ -205,7 +202,7 @@ const addBookHandler = (request, h) => {
             return response;
         }
             const response =h.response({
-                status: 'success',
+                status: 'fail',
                 message: 'Buku gagal dihapus. Id tidak ditemukan'
             });
             response.code(404);
