@@ -209,5 +209,6 @@ const addBookHandler = (request, h) => {
             response.code(404);
             return response;
     }
+    // Done.
 
 module.exports = {addBookHandler, getAllBookHandler, getAllBookByIdHandler, editBookByIdHandler, deleteBookByIdHandler};
